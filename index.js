@@ -43,8 +43,8 @@ const albergueTransporter = nodeMailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-      user: "albergue.porto.it@gmail.com",
-      pass: "Albergue2021!"
+      user: "mateusz.wolnica@gmail.com",
+      pass: "Matwol5153!"
   },
   tls: {
     rejectUnauthorized: false
@@ -56,7 +56,7 @@ let transporters = {
 };
 
 let fromService = {
-  "service_08vey2o" : 'albergue.porto.it@gmail.com'
+  "service_08vey2o" : 'mateusz.wolnica@gmail.com'
 }
 
 function decrypt(text) {
