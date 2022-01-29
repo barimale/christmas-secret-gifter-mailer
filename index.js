@@ -13,7 +13,7 @@ const ivJson =  "{\"type\":\"Buffer\",\"data\":[77,177,156,230,70,8,218,20,182,2
 const key = JSON.parse(keyJson);
 const iv = JSON.parse(ivJson);
 
-const whitelist = ['https://PUTHEREALBERGUE.web.app','https://odkrywajcie.web.app', 'https://odkrywajcie.pl', 'https://profipromo.pl', 'https://utilities-mailer.herokuapp.com']
+const whitelist = ['https://christmas-secret-gifter.web.app','https://localhost','http://localhost', 'https://odkrywajcie.pl', 'https://profipromo.pl', 'https://utilities-mailer.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
