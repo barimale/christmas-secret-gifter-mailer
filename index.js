@@ -44,7 +44,7 @@ const albergueTransporter = nodeMailer.createTransport({
   secure: true,
   auth: {
       user: "mateusz.wolnica@gmail.com",
-      pass: "7412238035-28sot263trl954prcel09f8m3gfpp9iq.apps.googleusercontent.com"
+      pass: "ujlaysxkcydxvkah"
   },
   tls: {
     rejectUnauthorized: false
