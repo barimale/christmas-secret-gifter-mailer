@@ -1,5 +1,4 @@
 let express = require("express"),
-  path = require('path'),
   nodeMailer = require('nodemailer'),
   bodyParser = require('body-parser');
 
