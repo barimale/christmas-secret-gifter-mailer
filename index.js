@@ -26,16 +26,13 @@ const corsOptions = {
 }
 
 const bcrypt = require('bcrypt');
-
-const saltRounds = 10;
-const password = "apiKEY_HERE";
 const existingHash = "existing_Hash_HERE_calculated_by_using_values_from_above";
 
 app.use(express.static('src'));
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
+
 app.options('*', cors(corsOptions))
 
 const albergueTransporter = nodeMailer.createTransport({
