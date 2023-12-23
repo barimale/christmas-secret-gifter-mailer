@@ -8,12 +8,12 @@ var cors = require('cors')
 
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
-const keyJson =  "{\"type\":\"Buffer\",\"data\":[124,220,206,184,127,124,38,166,182,93,101,77,57,223,219,125,166,33,187,151,77,32,103,199,215,19,248,113,255,232,220,19]}";
-const ivJson =  "{\"type\":\"Buffer\",\"data\":[77,177,156,230,70,8,218,20,182,232,146,11,74,126,187,23]}";
+const keyJson =  "{\"type\":\"Buffer\",\"data\":[124]}";
+const ivJson =  "{\"type\":\"Buffer\",\"data\":[77,177]}";
 const key = JSON.parse(keyJson);
 const iv = JSON.parse(ivJson);
 
-const whitelist = ['https://christmas-secret-gifter.azurewebsites.net','https://christmas-secret-gifter.web.app','http://localhost:3010','http://localhost', 'https://odkrywajcie.pl', 'https://profipromo.pl', 'https://utilities-mailer.herokuapp.com']
+const whitelist = ['https://mailer_URL.domain.net','http://localhost:3010','http://localhost']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -28,8 +28,8 @@ const corsOptions = {
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
-const password = "odkrywajcie-mailer-ajdfnhajdfnaf-Password@2020";
-const existingHash = "$2b$10$J02j.QbzLoWQjv5GsfixUO0Q9KRoUfRHdehcnNZB1Alvb6QGnhz/O";
+const password = "apiKEY_HERE";
+const existingHash = "existing_Hash_HERE_calculated_by_using_values_from_above";
 
 app.use(express.static('src'));
 
@@ -39,12 +39,12 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions))
 
 const albergueTransporter = nodeMailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
+  host: 'smtp.domain.com',
+  port: 222,
   secure: true,
   auth: {
-      user: "mateusz.wolnica@gmail.com",
-      pass: "ujlaysxkcydxvkah"
+      user: "my_email@domain.com",
+      pass: "password"
   },
   tls: {
     rejectUnauthorized: false
@@ -52,11 +52,11 @@ const albergueTransporter = nodeMailer.createTransport({
 });
 
 let transporters = {
-  "service_08vey2o" : albergueTransporter
+  "serviceID_HERE" : albergueTransporter
 };
 
 let fromService = {
-  "service_08vey2o" : 'mateusz.wolnica@gmail.com'
+  "serviceID_HERE" : 'my_email@domain.com'
 }
 
 function decrypt(text) {
@@ -83,48 +83,49 @@ app.post('/send-email', function (req, res) {
       body[pair[0]] = pair[1];
     }
         
-  if(Object.keys(fromService).findIndex(p => p === body['serviceid']) < 0)
-  {
-    console.log("Invalid serviceId");
-    res.status(400).send('Something went wrong.');
-    return;
-  }
-  if(Object.keys(transporters).findIndex(p => p === body['serviceid']) > -1)
-  {
-  bcrypt.compare(
-    body['apikey'],
-    existingHash,
-    (err, ress) => {
-        if(ress && ress === true) {        
-          let mailOptions = {
-            from: fromService[body['serviceid']],
-            to: body['to'],
-            subject: body['subject'],
-            html: body['message']
-          };
+    if(Object.keys(fromService).findIndex(p => p === body['serviceid']) < 0)
+    {
+      console.log("Invalid serviceId");
+      res.status(400).send('Something went wrong.');
+      return;
+    }
 
-          transporters[body['serviceid']].sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-                res.status(400).send('Something went wrong.');
-            }
-            else
-            {
-              console.log('Message ' +info.messageId +  'sent: ' + info.response);
-              res.status(200).send('Message ' +info.messageId +  'sent: ' + info.response);
-            }
-          });
-        }
-        else {
-            console.log("Invalid Password");
-            res.status(400).send('Something went wrong.');
-        }
-  })}
-  else
-  {
-    console.log("Invalid Password");
-    res.status(400).send('Something went wrong.');
-  }
+    if(Object.keys(transporters).findIndex(p => p === body['serviceid']) > -1)
+    {
+    bcrypt.compare(
+      body['apikey'],
+      existingHash,
+      (err, ress) => {
+          if(ress && ress === true) {        
+            let mailOptions = {
+              from: fromService[body['serviceid']],
+              to: body['to'],
+              subject: body['subject'],
+              html: body['message']
+            };
+
+            transporters[body['serviceid']].sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  console.log(error);
+                  res.status(400).send('Something went wrong.');
+              }
+              else
+              {
+                console.log('Message ' +info.messageId +  'sent: ' + info.response);
+                res.status(200).send('Message ' +info.messageId +  'sent: ' + info.response);
+              }
+            });
+          }
+          else {
+              console.log("Invalid Password");
+              res.status(400).send('Something went wrong.');
+          }
+    })}
+    else
+    {
+      console.log("Invalid Password");
+      res.status(400).send('Something went wrong.');
+    }
 } catch (error) {
   console.log("Invalid data");
   res.status(400).send('Something went wrong.');
@@ -133,8 +134,8 @@ app.post('/send-email', function (req, res) {
 
 let server = app.listen(process.env.PORT || 4000, function(){
     let port = server.address().port;
-    // let host = server.address().host;
-    // console.log("Server started at ", (host || process.env.HOST || 'http://localhost') + ":" + port);
+    let host = server.address().host;
+    console.log("Server started at ", (host || process.env.HOST || 'http://localhost') + ":" + port);
 
     Object.keys(transporters).forEach((serviceId) => {
       transporters[serviceId].verify(function(error, success) {
@@ -145,5 +146,4 @@ let server = app.listen(process.env.PORT || 4000, function(){
         }
       });
     });
-    
 });
