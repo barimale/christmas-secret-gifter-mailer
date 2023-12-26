@@ -1,6 +1,6 @@
 const nodeMailer = require('nodemailer');
 
-const albergueTransporter = nodeMailer.createTransport({
+const mailTransporter = nodeMailer.createTransport({
     host: 'smtp.mail.com',
     port: 405,
     secure: true,
@@ -14,7 +14,7 @@ const albergueTransporter = nodeMailer.createTransport({
   });
   
 const transporters = {
-  "service_08vey2o" : albergueTransporter
+  "service_08vey2o" : mailTransporter
 };
 
 const fromService = {
