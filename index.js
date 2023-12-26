@@ -1,16 +1,6 @@
 let express = require("express");
 const app = express();
 
-// middlewares
-let decryptMiddleware = require('./middlewares/decrypt-middleware');
-app.use(decryptMiddleware);
-let serviceMiddleware = require('./middlewares/service-middleware');
-app.use(serviceMiddleware);
-let bcryptComparerMiddleware = require('./middlewares/bcrypt-comparer-middleware');
-app.use(bcryptComparerMiddleware);
-let mailSenderMiddleware = require('./middlewares/mail-sender-middleware');
-app.use(mailSenderMiddleware);
-
 // configuration
 // // cors
 const cors = require('cors')
@@ -27,6 +17,16 @@ let bodyParser = require('body-parser');
 app.use(express.static('src'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+// middlewares
+let decryptMiddleware = require('./middlewares/decrypt-middleware');
+app.use(decryptMiddleware);
+let serviceMiddleware = require('./middlewares/service-middleware');
+app.use(serviceMiddleware);
+let bcryptComparerMiddleware = require('./middlewares/bcrypt-comparer-middleware');
+app.use(bcryptComparerMiddleware);
+let mailSenderMiddleware = require('./middlewares/mail-sender-middleware');
+app.use(mailSenderMiddleware);
 
 // transporters
 const transporters = require("./utils/transporters");
