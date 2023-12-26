@@ -12,7 +12,7 @@ app.options('*', cors(corsOptions))
 const limiter = require('./utils/rateLimit')
 app.use(limiter)
 
-// third parties
+// parsers
 let bodyParser = require('body-parser');
 app.use(express.static('src'));
 app.use(bodyParser.urlencoded({extended: true}));
