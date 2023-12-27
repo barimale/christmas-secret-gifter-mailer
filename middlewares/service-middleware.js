@@ -2,7 +2,7 @@ const transporters = require('../utils/transporters');
 const fromService = require('../utils/transporters');
 
 const serviceMiddleware = (req, res, next) => {
-  var body = [...req.locals.body];
+  var body = req.app.locals.body;
         
   if(Object.keys(fromService).findIndex(p => p === body['serviceid']) < 0)
   {

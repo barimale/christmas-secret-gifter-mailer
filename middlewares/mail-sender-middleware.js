@@ -4,8 +4,9 @@ const fromService = require('../utils/transporters');
 
 const mailSenderMiddleware = (req, res, next) => {
   try {
+    var body = req.app.locals.body;
 
-    if(req.locals.ress === true) {        
+    if(req.app.locals.ress === true) {        
       let mailOptions = {
         from: fromService[body['serviceid']],
         to: body['to'],

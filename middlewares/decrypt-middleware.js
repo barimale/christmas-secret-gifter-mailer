@@ -29,7 +29,7 @@ function decrypt(text) {
       body[pair[0]] = pair[1];
     }
 
-    req.locals.body = body;
+    req.app.locals.body = body;
 
     next();
   } catch (error) {

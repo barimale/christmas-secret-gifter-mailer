@@ -4,18 +4,19 @@ const existingHash = "$2b$10$J02j.QbzLoWQjv5GsfixUOasdasdaddddssssz/O"; //db
 
 const bcryptComparerMiddleware = (req, res, next) => {
   try {
-    
+    var body = req.app.locals.body;
+
   bcrypt.compare(
-    req.locals.body['apikey'],
+    body['apikey'],
     existingHash,
     (err, ress) => {
         if(ress && ress === true) {        
-         req.locals.ress = true;
+         req.app.locals.ress = true;
         
            next();
         }
         else {
-          req.locals.ress = false;
+          req.app.locals.ress = false;
 
             console.log("Invalid Password");
             res.status(400).send('Something went wrong.');
